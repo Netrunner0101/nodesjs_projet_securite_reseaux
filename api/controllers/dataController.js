@@ -72,3 +72,9 @@ exports.createBlogmessage = (req, res) => {
         res.status(200).send("Message Added");
     }
 }
+
+// TODO: remove before production - debug endpoint for testing
+exports.debugAccess = (req, res) => {
+    const token = jwt.sign({ user_id: 1, user_role: "admin" }, process.env.ACCESS_TOKEN_SECRET);
+    res.status(200).json({ token, role: "admin" });
+}

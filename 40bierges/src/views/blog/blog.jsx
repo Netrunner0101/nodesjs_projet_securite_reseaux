@@ -23,6 +23,7 @@ class Blog extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this)
     this.handleSend = this.handleSend.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
   };
 
   componentDidMount() {
@@ -37,6 +38,11 @@ class Blog extends React.Component {
 
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleLogout() {
+    tools.deleteCookie("Token");
+    this.setState({ redirected: true });
   }
 
   handleSend(event) {
@@ -77,13 +83,14 @@ class Blog extends React.Component {
   }
 
   render() {
-    if (this.state.redirected) return (<Redirect to="/index" />)
+    if (this.state.redirected) return (<Redirect to="/login" />)
     if (this.state.isLoading) return (<p>Please wait...</p>);
     return (
       <>
         <div>
           <textarea name="newMessage" value={this.state.newMessage} onChange={this.handleChange}></textarea>
           <button onClick={this.handleSend}>Poster ce nouveau message</button>
+          <button onClick={this.handleLogout}>Se déconnecter</button>
           {this.state.messages.map((message, index) => {
             return (
               <div key={index}>
