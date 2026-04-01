@@ -21,6 +21,7 @@ class Admin extends React.Component {
             url: "http://localhost:3001"
         };
         this.toggleSecret = this.toggleSecret.bind(this)
+        this.handleLogout = this.handleLogout.bind(this)
     };
 
     componentDidMount() {
@@ -35,6 +36,11 @@ class Admin extends React.Component {
 
     toggleSecret() {
         this.setState({ showSecret: !this.state.showSecret })
+    }
+
+    handleLogout() {
+        tools.deleteCookie("Token");
+        this.setState({ redirected: true });
     }
 
     fetchData() {
@@ -85,6 +91,7 @@ class Admin extends React.Component {
                         }
                     })}
                 </div>
+                <button onClick={this.handleLogout}>Se déconnecter</button>
             </>
         );
     }

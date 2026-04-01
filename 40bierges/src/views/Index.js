@@ -23,6 +23,7 @@ class Index extends React.Component {
       url: "http://localhost:3001"
     };
     this.toggleSecret = this.toggleSecret.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
   };
 
   componentDidMount() {
@@ -37,6 +38,11 @@ class Index extends React.Component {
 
   toggleSecret() {
     this.setState({ showSecret: !this.state.showSecret })
+  }
+
+  handleLogout() {
+    tools.deleteCookie("Token");
+    this.setState({ redirected: true });
   }
 
   fetchData() {
@@ -67,6 +73,7 @@ class Index extends React.Component {
           Ravi de te voir {this.state.mail},
           <ButtonUser handleClick={this.toggleSecret} />
           {this.state.showSecret ? <div>{this.state.secret}</div> : <div>***************</div>}
+          <button onClick={this.handleLogout}>Se déconnecter</button>
         </div>
       </>
     )
