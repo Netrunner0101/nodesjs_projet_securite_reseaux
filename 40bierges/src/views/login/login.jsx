@@ -18,7 +18,7 @@ class Login extends React.Component {
       redirectedAdmin: false,
       mail: "",
       password: "",
-      url: "http://localhost:3001"
+      url: process.env.REACT_APP_API_URL || "http://localhost:3001"
     };
     this.handleConnect = this.handleConnect.bind(this)
     this.handleChange = this.handleChange.bind(this)

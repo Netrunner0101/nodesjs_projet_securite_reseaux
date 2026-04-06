@@ -20,7 +20,7 @@ class Index extends React.Component {
       secret: "",
       isAdmin: false,
       isLoading: true,
-      url: "http://localhost:3001"
+      url: process.env.REACT_APP_API_URL || "http://localhost:3001"
     };
     this.toggleSecret = this.toggleSecret.bind(this)
     this.handleLogout = this.handleLogout.bind(this)

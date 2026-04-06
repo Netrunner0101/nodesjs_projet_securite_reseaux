@@ -1,4 +1,4 @@
-var whitelist = ['http://localhost:8080', 'http://localhost:3000', 'http://localhost:3001']
+var whitelist = (process.env.CORS_WHITELIST || 'http://localhost:8080,http://localhost:3000,http://localhost:3001').split(',')
 
 module.exports = corsOptions = {
   origin: function (origin, callback) {
