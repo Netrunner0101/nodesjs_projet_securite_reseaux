@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+*.md
+.env
+.env.*
+api/node_modules
+api/database.sqlite
+40bierges/node_modules
+40bierges/build
