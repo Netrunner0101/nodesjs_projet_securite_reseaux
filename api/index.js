@@ -21,6 +21,18 @@ app.use('/', routerSecure);
 
 const port = process.env.PORT || 3001
 
-app.listen(port, () => {
-    console.info(`[SERVER] Listening on http://localhost:${port}`); 
+const server = app.listen(port, () => {
+    console.info(`[SERVER] Listening on http://localhost:${port}`);
 })
+
+// Graceful shutdown: free the port on restart (SIGINT = Ctrl+C, SIGTERM = kill/nodemon)
+function shutdown() {
+    console.info('[SERVER] Shutting down gracefully...');
+    server.close(() => {
+        console.info('[SERVER] Port released.');
+        process.exit(0);
+    });
+}
+
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
