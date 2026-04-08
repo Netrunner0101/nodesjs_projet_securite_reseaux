@@ -129,6 +129,13 @@ class Login extends React.Component {
             </p>
           </div>
 
+          {/* CTA Page d'Or */}
+          <div className="golden-cta">
+            <a href="/golden" className="btn btn-outline btn-lg">
+              <span role="img" aria-label="trophee">&#127942;</span> Voir la Page d'Or — Hall of Fame
+            </a>
+          </div>
+
           {/* Login Form */}
           <div className="login-section">
             <div className="login-card">
