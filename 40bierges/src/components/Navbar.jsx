@@ -9,6 +9,7 @@ function Navbar({ currentPage, isLoggedIn, onLogout }) {
                 IFOSUP <span>CTF</span>
             </a>
             <div className="navbar-links">
+                <a href="/golden" className={currentPage === 'golden' ? 'active' : ''}>Page d'Or</a>
                 {isLoggedIn ? (
                     <>
                         <a href="/index" className={currentPage === 'index' ? 'active' : ''}>Dashboard</a>

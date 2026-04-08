@@ -9,6 +9,7 @@ import Index from "./views/Index.js"
 import Admin from './views/admin/admin'
 import Login from './views/login/login'
 import Blog from './views/blog/blog'
+import GoldenWall from './views/golden/golden'
 
 ReactDOM.render(
 
@@ -31,6 +32,12 @@ ReactDOM.render(
         exact
         path="/blog"
         render={props => <Blog {...props} />}
+      />
+
+      <Route
+        exact
+        path="/golden"
+        render={props => <GoldenWall {...props} />}
       />
 
       <Route path="/index" render={props => <Index {...props} />} />

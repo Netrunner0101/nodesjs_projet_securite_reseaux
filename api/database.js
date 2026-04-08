@@ -16,6 +16,15 @@ db.exec(`
   )
 `);
 
+db.exec(`
+  CREATE TABLE IF NOT EXISTS golden_wall (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    alias TEXT,
+    message TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
 const count = db.prepare('SELECT COUNT(*) AS cnt FROM accounts').get();
 if (count.cnt === 0) {
   const insert = db.prepare(

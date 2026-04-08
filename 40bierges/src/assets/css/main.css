@@ -586,6 +586,77 @@ body {
   font-size: 0.9rem;
 }
 
+/* ============ GOLDEN WALL ============ */
+
+.golden-entries {
+  margin-top: 1rem;
+}
+
+.golden-entry {
+  background: var(--gray-100);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--teal);
+  transition: transform 0.2s;
+}
+
+.golden-entry:hover {
+  transform: translateX(4px);
+}
+
+.golden-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.golden-rank {
+  background: var(--navy);
+  color: var(--teal);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+}
+
+.golden-alias {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+.golden-date {
+  font-size: 0.8rem;
+  color: var(--gray-600);
+  margin-left: auto;
+}
+
+.golden-message {
+  color: var(--gray-800);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray-600);
+}
+
+.success-banner {
+  background: rgba(39, 174, 96, 0.1);
+  color: var(--success);
+  border: 1px solid rgba(39, 174, 96, 0.3);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
 /* ============ FOOTER ============ */
 
 .footer {
