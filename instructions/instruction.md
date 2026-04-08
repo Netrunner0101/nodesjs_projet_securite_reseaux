@@ -45,6 +45,9 @@ npm start
 Le frontend React demarre sur **http://localhost:3000**.
 Il contacte l'API sur `http://localhost:3001` par defaut.
 
+> **Note :** Le frontend utilise `react-scripts 3.0.1` qui n'est pas compatible avec Node.js v17+.
+> Le script `start` inclut automatiquement le flag `--openssl-legacy-provider` via `cross-env` pour contourner ce probleme.
+
 ### Comptes par defaut
 
 | Email             | Mot de passe | Role  |
