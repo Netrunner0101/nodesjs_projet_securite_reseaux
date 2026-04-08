@@ -15,7 +15,7 @@ exports.readCookie = (cname) => {
 }
 
 exports.checkIfConnected = () => {
-    let token = this.readCookie("Token")
+    let token = exports.readCookie("Token")
     if (token !== undefined) {
         return true;
     }
