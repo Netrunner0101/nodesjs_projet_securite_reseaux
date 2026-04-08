@@ -25,6 +25,20 @@ const server = app.listen(port, () => {
     console.info(`[SERVER] Listening on http://localhost:${port}`);
 })
 
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`[SERVER] Port ${port} already in use. Attempting to free it...`);
+        require('child_process').exec(`lsof -ti:${port} | xargs kill -9`, () => {
+            setTimeout(() => {
+                server.listen(port);
+            }, 1000);
+        });
+    } else {
+        console.error('[SERVER] Error:', err.message);
+        process.exit(1);
+    }
+});
+
 // Graceful shutdown: free the port on restart (SIGINT = Ctrl+C, SIGTERM = kill/nodemon)
 function shutdown() {
     console.info('[SERVER] Shutting down gracefully...');
@@ -32,6 +46,8 @@ function shutdown() {
         console.info('[SERVER] Port released.');
         process.exit(0);
     });
+    // Force exit after 3s if connections hang
+    setTimeout(() => process.exit(0), 3000);
 }
 
 process.on('SIGINT', shutdown);
