@@ -1,12 +1,10 @@
 import React from "react";
 import { Redirect } from 'react-router-dom'
 
-// core components
 import '../assets/css/main.css'
 import axios from "axios";
 import tools from "../toolBox"
-
-import ButtonUser from "../components/ButtonUser";
+import Navbar from "../components/Navbar";
 
 class Index extends React.Component {
 
@@ -65,16 +63,62 @@ class Index extends React.Component {
 
   render() {
     if (this.state.redirected) return (<Redirect to="/login" />)
-    if (this.state.isAdmin) return (<Redirect to="/admin" />) 
-    if (this.state.isLoading) return (<p>Please wait...</p>);
+    if (this.state.isAdmin) return (<Redirect to="/admin" />)
+    if (this.state.isLoading) return (<div className="loading">Chargement</div>);
     return (
       <>
-        <div>
-          Ravi de te voir {this.state.mail},
-          <ButtonUser handleClick={this.toggleSecret} />
-          {this.state.showSecret ? <div>{this.state.secret}</div> : <div>***************</div>}
-          <button onClick={this.handleLogout}>Se déconnecter</button>
+        <Navbar currentPage="index" isLoggedIn={true} onLogout={this.handleLogout} />
+
+        <div className="container">
+          <div className="dashboard-header">
+            <h1>Bienvenue, <span className="text-teal">{this.state.mail}</span></h1>
+            <p>Votre espace personnel sur la plateforme CTF IFOSUP</p>
+          </div>
+
+          <div className="card">
+            <h2>Votre secret</h2>
+            <p>
+              Chaque participant possede un secret unique. Si un attaquant parvient a lire
+              votre secret, cela signifie que votre compte a ete compromis. Gardez-le precieusement.
+            </p>
+            <div className="secret-box">
+              {this.state.showSecret
+                ? <span className="secret-value">{this.state.secret}</span>
+                : <span className="secret-hidden">********************</span>
+              }
+              <button
+                className={this.state.showSecret ? "btn btn-sm btn-outline-navy" : "btn btn-sm btn-outline"}
+                onClick={this.toggleSecret}
+              >
+                {this.state.showSecret ? "Masquer" : "Afficher"}
+              </button>
+            </div>
+          </div>
+
+          <div className="info-grid">
+            <div className="info-card">
+              <div className="icon"><span role="img" aria-label="discussion">&#128172;</span></div>
+              <h3>Blog communautaire</h3>
+              <p>
+                Echangez avec les autres participants via le blog interne.
+                Partagez vos decouvertes (sans spoilers !).
+              </p>
+              <a href="/blog" className="btn btn-sm btn-outline mt-2">Acceder au blog</a>
+            </div>
+            <div className="info-card">
+              <div className="icon"><span role="img" aria-label="idee">&#128161;</span></div>
+              <h3>Rappel du challenge</h3>
+              <p>
+                Une backdoor se cache dans cette application. Explorez les routes
+                de l'API, inspectez le code source, et tentez d'obtenir un acces admin.
+              </p>
+            </div>
+          </div>
         </div>
+
+        <footer className="footer">
+          <p>IFOSUP Wavre &mdash; Projet Securite Reseaux &mdash; {new Date().getFullYear()}</p>
+        </footer>
       </>
     )
   }

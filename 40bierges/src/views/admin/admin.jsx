@@ -1,12 +1,10 @@
 import React from "react";
 import { Redirect } from 'react-router-dom'
 
-// core components
 import '../../assets/css/main.css'
 import axios from "axios";
 import tools from "../../toolBox"
-
-import ButtonUser from "../../components/ButtonUser";
+import Navbar from "../../components/Navbar";
 
 class Admin extends React.Component {
 
@@ -55,14 +53,10 @@ class Admin extends React.Component {
                     isLoading: false
                 })
             } else {
-                this.setState({
-                    redirected: true
-                })
+                this.setState({ redirected: true })
             }
         }).catch(error => {
-            this.setState({
-                redirected: true
-            })
+            this.setState({ redirected: true })
             console.log(error)
         });
     }
@@ -71,27 +65,76 @@ class Admin extends React.Component {
 
     render() {
         if (this.state.redirected) return (<Redirect to="/login" />)
-        if (this.state.isLoading) return (<p>Please wait...</p>);
+        if (this.state.isLoading) return (<div className="loading">Chargement</div>);
         return (
             <>
-                <div>
-                    Bienvenu sur votre page ultime cher Admin !
-                    <ButtonUser handleClick={this.toggleSecret} />
-                    {this.state.showSecret ? <div>{this.state.userList[0].secret}</div> : <div>***************</div>}
+                <Navbar currentPage="admin" isLoggedIn={true} onLogout={this.handleLogout} />
+
+                <div className="container">
+                    <div className="dashboard-header">
+                        <h1><span role="img" aria-label="cadenas">&#128274;</span> Panneau <span className="text-teal">Administrateur</span></h1>
+                        <p>Acces complet au systeme - Gestion des utilisateurs et de leurs secrets</p>
+                    </div>
+
+                    <div className="card">
+                        <h2>Votre secret administrateur</h2>
+                        <p>
+                            En tant qu'administrateur, vous avez acces a l'ensemble des donnees
+                            de la plateforme, y compris les secrets de tous les participants.
+                        </p>
+                        <div className="secret-box">
+                            {this.state.showSecret
+                                ? <span className="secret-value">{this.state.userList[0].secret}</span>
+                                : <span className="secret-hidden">********************</span>
+                            }
+                            <button
+                                className={this.state.showSecret ? "btn btn-sm btn-outline-navy" : "btn btn-sm btn-outline"}
+                                onClick={this.toggleSecret}
+                            >
+                                {this.state.showSecret ? "Masquer" : "Afficher"}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <div className="flex-between mb-2">
+                            <h2>Tous les utilisateurs inscrits</h2>
+                            <span className="role-badge admin">{this.state.userList.length} comptes</span>
+                        </div>
+                        <p>
+                            Si un attaquant parvient a acceder a cette page, il pourra lire
+                            les secrets de chaque utilisateur. C'est l'objectif du challenge CTF.
+                        </p>
+                        <table className="users-table mt-2">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Secret</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.userList.map((user, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{user.mail}</td>
+                                        <td>
+                                            <span className={"role-badge " + user.role}>
+                                                {user.role}
+                                            </span>
+                                        </td>
+                                        <td className="text-mono">{user.secret}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div>
-                    En tant qu'administrateur, voici également la liste des secrets de tous les utilisateurs inscrits :
-                    {this.state.userList.map((user, index) => {
-                        if (user.role === "user") {
-                            return (
-                                <div key={index}>
-                                    <p>{user.mail} : {user.secret}</p>
-                                </div>
-                            )
-                        }
-                    })}
-                </div>
-                <button onClick={this.handleLogout}>Se déconnecter</button>
+
+                <footer className="footer">
+                    <p>IFOSUP Wavre &mdash; Projet Securite Reseaux &mdash; {new Date().getFullYear()}</p>
+                </footer>
             </>
         );
     }

@@ -1,13 +1,10 @@
 import React from "react";
 import { Redirect } from 'react-router-dom'
 
-
-// core components
 import '../../assets/css/main.css'
-
 import tools from "../../toolBox"
 import axios from "axios";
-
+import Navbar from "../../components/Navbar";
 
 class Blog extends React.Component {
 
@@ -24,6 +21,7 @@ class Blog extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSend = this.handleSend.bind(this)
     this.handleLogout = this.handleLogout.bind(this)
+    this.handleKeyPress = this.handleKeyPress.bind(this)
   };
 
   componentDidMount() {
@@ -45,7 +43,15 @@ class Blog extends React.Component {
     this.setState({ redirected: true });
   }
 
-  handleSend(event) {
+  handleKeyPress(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.handleSend();
+    }
+  }
+
+  handleSend() {
+    if (!this.state.newMessage.trim()) return;
     axios.post(this.state.url + '/blog', {
       message: this.state.newMessage
     }, {
@@ -58,7 +64,7 @@ class Blog extends React.Component {
         tmp.push(this.state.newMessage)
         this.setState({ messages: tmp, newMessage: "" })
       } else {
-        alert("error " + response.status)
+        alert("Erreur " + response.status)
       }
     }).catch(error => {
       console.log(error)
@@ -84,21 +90,57 @@ class Blog extends React.Component {
 
   render() {
     if (this.state.redirected) return (<Redirect to="/login" />)
-    if (this.state.isLoading) return (<p>Please wait...</p>);
+    if (this.state.isLoading) return (<div className="loading">Chargement</div>);
     return (
       <>
-        <div>
-          <textarea name="newMessage" value={this.state.newMessage} onChange={this.handleChange}></textarea>
-          <button onClick={this.handleSend}>Poster ce nouveau message</button>
-          <button onClick={this.handleLogout}>Se déconnecter</button>
-          {this.state.messages.map((message, index) => {
-            return (
-              <div key={index}>
-                <p>{index+1}. {message}</p>
+        <Navbar currentPage="blog" isLoggedIn={true} onLogout={this.handleLogout} />
+
+        <div className="container">
+          <div className="dashboard-header">
+            <h1><span role="img" aria-label="discussion">&#128172;</span> Blog <span className="text-teal">communautaire</span></h1>
+            <p>Echangez avec les autres participants du challenge CTF</p>
+          </div>
+
+          <div className="card">
+            <h2>Publier un message</h2>
+            <p>Partagez vos idees, posez des questions, ou donnez des indices aux autres participants.</p>
+            <div className="form-group mt-2">
+              <textarea
+                name="newMessage"
+                placeholder="Ecrivez votre message ici... (Entree pour envoyer, Shift+Entree pour un saut de ligne)"
+                value={this.state.newMessage}
+                onChange={this.handleChange}
+                onKeyPress={this.handleKeyPress}
+              ></textarea>
+            </div>
+            <button className="btn btn-primary" onClick={this.handleSend}>
+              Publier
+            </button>
+          </div>
+
+          <div className="card">
+            <div className="flex-between mb-2">
+              <h2>Messages</h2>
+              <span className="role-badge admin">{this.state.messages.length} message{this.state.messages.length !== 1 ? 's' : ''}</span>
+            </div>
+            {this.state.messages.length === 0 ? (
+              <p>Aucun message pour l'instant. Soyez le premier a publier !</p>
+            ) : (
+              <div className="blog-messages">
+                {this.state.messages.map((message, index) => (
+                  <div className="blog-message" key={index}>
+                    <div className="message-number">Message #{index + 1}</div>
+                    <div className="message-text">{message}</div>
+                  </div>
+                ))}
               </div>
-            )
-          })}
+            )}
+          </div>
         </div>
+
+        <footer className="footer">
+          <p>IFOSUP Wavre &mdash; Projet Securite Reseaux &mdash; {new Date().getFullYear()}</p>
+        </footer>
       </>
     )
   }
