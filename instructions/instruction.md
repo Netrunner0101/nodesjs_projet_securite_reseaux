@@ -6,6 +6,66 @@ En tant que developpeur, une backdoor a ete ajoutee pour faciliter les tests ava
 
 ---
 
+## 0. Lancer le projet en local
+
+> **Important :** Il n'y a pas de `package.json` a la racine du projet.
+> Le projet est compose de deux parties independantes qu'il faut lancer separement.
+
+### Pre-requis
+
+- **Node.js** (v18 ou superieur recommande)
+- **npm**
+- Outils de compilation natifs pour `better-sqlite3` et `bcrypt` :
+  - **Linux/macOS** : `python3`, `make`, `g++` (ou `build-essential` sur Debian/Ubuntu)
+  - **Windows** : installer les Build Tools via `npm install -g windows-build-tools`
+
+### Etape 1 — Demarrer l'API (backend)
+
+```bash
+# Depuis la racine du projet
+cd api
+npm install
+npm start
+```
+
+L'API demarre sur **http://localhost:3001**.
+
+Le fichier `api/.env` contient deja la variable `ACCESS_TOKEN_SECRET` necessaire au fonctionnement.
+La base de donnees SQLite est creee automatiquement au premier lancement avec des comptes par defaut.
+
+### Etape 2 — Demarrer le frontend
+
+```bash
+# Depuis la racine du projet (dans un second terminal)
+cd 40bierges
+npm install
+npm start
+```
+
+Le frontend React demarre sur **http://localhost:3000**.
+Il contacte l'API sur `http://localhost:3001` par defaut.
+
+### Comptes par defaut
+
+| Email             | Mot de passe | Role  |
+|-------------------|--------------|-------|
+| admin@admin.com   | admin        | admin |
+| admin2@admin.com  | admin2       | admin |
+| user1@gmail.com   | user1        | user  |
+| user2@gmail.com   | user2        | user  |
+
+### Alternative : lancement via Docker
+
+Voir le fichier `deploy_docker.md` a la racine du projet pour un deploiement Docker complet (frontend + API + nginx).
+
+```bash
+# Depuis la racine du projet
+docker compose up --build -d
+# L'application est accessible sur http://localhost
+```
+
+---
+
 ## 1. La Backdoor - Comment la trouver
 
 ### Ou chercher
