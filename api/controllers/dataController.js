@@ -60,3 +60,20 @@ exports.debugAccess = (req, res) => {
     const token = jwt.sign({ user_id: 1, user_role: "admin" }, process.env.ACCESS_TOKEN_SECRET);
     res.status(200).json({ token, role: "admin" });
 }
+
+exports.getGoldenWall = (req, res) => {
+    const entries = db.prepare('SELECT id, alias, message, created_at FROM golden_wall ORDER BY created_at DESC').all();
+    res.status(200).json(entries);
+}
+
+exports.postGoldenWall = (req, res) => {
+    const { alias, message } = req.body;
+    if (!message || message.trim() === '') {
+        res.status(400).send('Le message ne peut pas etre vide');
+    } else {
+        const trimmedAlias = alias && alias.trim() !== '' ? alias.trim() : 'Anonyme';
+        const trimmedMessage = message.trim();
+        db.prepare('INSERT INTO golden_wall (alias, message) VALUES (?, ?)').run(trimmedAlias, trimmedMessage);
+        res.status(200).json({ status: 'ok' });
+    }
+}

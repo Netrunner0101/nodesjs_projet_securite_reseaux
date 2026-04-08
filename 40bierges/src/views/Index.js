@@ -113,6 +113,15 @@ class Index extends React.Component {
                 de l'API, inspectez le code source, et tentez d'obtenir un acces admin.
               </p>
             </div>
+            <div className="info-card">
+              <div className="icon"><span role="img" aria-label="trophee">&#127942;</span></div>
+              <h3>Page d'Or</h3>
+              <p>
+                Vous avez reussi le challenge ? Inscrivez votre equipe sur le
+                tableau d'honneur et laissez un message pour la posterite.
+              </p>
+              <a href="/golden" className="btn btn-sm btn-outline mt-2">Acceder a la Page d'Or</a>
+            </div>
           </div>
         </div>
 
