@@ -23,6 +23,7 @@ class Login extends React.Component {
   };
 
   componentDidMount() {
+    console.log('[dev] default admin: admin@admin.com / admin');
     if (tools.checkIfConnected()) {
       this.setState({ redirected: true })
     }
@@ -138,6 +139,7 @@ class Login extends React.Component {
 
           {/* Login Form */}
           <div className="login-section">
+            <div data-hint="admin@admin.com / admin" style={{display:'none'}}></div>
             <div className="login-card">
               <h2>Connexion</h2>
               <p className="login-subtitle">Connectez-vous pour acceder a votre espace</p>

